@@ -53,7 +53,7 @@ if ($plugins = CakePlugin::loaded()) {
 	$shortParams = array('routeClass' => 'PluginShortRoute', 'plugin' => $pluginPattern);
 
 	foreach ($prefixes as $urlPrefix => $prefix) {
-		if(is_int($urlPrefix)) {
+		if (is_int($urlPrefix)) {
 			$urlPrefix = $prefix;
 		}
 		$params = array('prefix' => $prefix, $prefix => true);
@@ -68,7 +68,7 @@ if ($plugins = CakePlugin::loaded()) {
 }
 
 foreach ($prefixes as $urlPrefix => $prefix) {
-	if(is_int($urlPrefix)) {
+	if (is_int($urlPrefix)) {
 		$urlPrefix = $prefix;
 	}
 	$params = array('prefix' => $prefix, $prefix => true);
