@@ -1294,10 +1294,10 @@ class RouterTest extends CakeTestCase {
 		$expected = array('admin', 'member', 'super_user');
 		$this->assertEquals($expected, $result);
 
-		Configure::write('Routing.prefixes', array('admin', 'member'));
+		Configure::write('Routing.prefixes', array('admin', 'executive' => 'manager'));
 		Router::reload();
 		$result = Router::prefixes();
-		$expected = array('admin', 'member');
+		$expected = array('admin', 'executive' => 'manager');
 		$this->assertEquals($expected, $result);
 
 		Configure::write('Routing', $restore);
