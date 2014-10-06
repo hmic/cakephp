@@ -53,7 +53,9 @@ if ($plugins = CakePlugin::loaded()) {
 	$shortParams = array('routeClass' => 'PluginShortRoute', 'plugin' => $pluginPattern);
 
 	foreach ($prefixes as $urlPrefix => $prefix) {
-		if(is_int($urlPrefix)) $urlPrefix = $prefix;
+		if(is_int($urlPrefix)) {
+			$urlPrefix = $prefix;
+		}
 		$params = array('prefix' => $prefix, $prefix => true);
 		$indexParams = $params + array('action' => 'index');
 		Router::connect("/{$urlPrefix}/:plugin", $indexParams, $shortParams);
@@ -66,7 +68,9 @@ if ($plugins = CakePlugin::loaded()) {
 }
 
 foreach ($prefixes as $urlPrefix => $prefix) {
-	if(is_int($urlPrefix)) $urlPrefix = $prefix;
+	if(is_int($urlPrefix)) {
+		$urlPrefix = $prefix;
+	}
 	$params = array('prefix' => $prefix, $prefix => true);
 	$indexParams = $params + array('action' => 'index');
 	Router::connect("/{$urlPrefix}/:controller", $indexParams);
