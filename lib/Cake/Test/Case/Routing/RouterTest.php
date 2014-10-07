@@ -1309,63 +1309,75 @@ class RouterTest extends CakeTestCase {
  * @return void
  */
 	public function testPrefixRoutingAndPlugins() {
-		Configure::write('Routing.prefixes', array('admin'));
-		$paths = App::path('plugins');
-		App::build(array(
-			'plugins' => array(
-				CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS
-			)
-		), App::RESET);
-		CakePlugin::load(array('TestPlugin'));
-
-		Router::reload();
-		require CAKE . 'Config' . DS . 'routes.php';
-		$request = new CakeRequest();
-		Router::setRequestInfo(
-			$request->addParams(array(
-				'admin' => true, 'controller' => 'controller', 'action' => 'action',
-				'plugin' => null, 'prefix' => 'admin'
-			))->addPaths(array(
-				'base' => '/',
-				'here' => '/',
-				'webroot' => '/base/',
-			))
+		$prefixTests = array(
+			array('admin'),
+			array('supervisor' => 'admin')
 		);
-		Router::parse('/');
+		foreach($prefixTests as $testPrefix) {
+			$prefix = current($testPrefix);
+			$urlPrefix = key($testPrefix);
+			if (is_int($urlPrefix)) {
+				$urlPrefix = $prefix;
+			}
 
-		$result = Router::url(array('plugin' => 'test_plugin', 'controller' => 'test_plugin', 'action' => 'index'));
-		$expected = '/admin/test_plugin';
-		$this->assertEquals($expected, $result);
+			Configure::write('Routing.prefixes', $testPrefix);
+			$paths = App::path('plugins');
+			App::build(array(
+				'plugins' => array(
+					CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS
+				)
+			), App::RESET);
+			CakePlugin::load(array('TestPlugin'));
 
-		Router::reload();
-		require CAKE . 'Config' . DS . 'routes.php';
-		$request = new CakeRequest();
-		Router::setRequestInfo(
-			$request->addParams(array(
-				'plugin' => 'test_plugin', 'controller' => 'show_tickets', 'action' => 'admin_edit',
-				'pass' => array('6'), 'prefix' => 'admin', 'admin' => true, 'form' => array(),
-				'url' => array('url' => 'admin/shows/show_tickets/edit/6')
-			))->addPaths(array(
-				'base' => '/',
-				'here' => '/admin/shows/show_tickets/edit/6',
-				'webroot' => '/',
-			))
-		);
+			Router::reload();
+			require CAKE . 'Config' . DS . 'routes.php';
+			$request = new CakeRequest();
+			Router::setRequestInfo(
+				$request->addParams(array(
+					'admin' => true, 'controller' => 'controller', 'action' => 'action',
+					'plugin' => null, 'prefix' => $prefix
+				))->addPaths(array(
+					'base' => '/',
+					'here' => '/',
+					'webroot' => '/base/',
+				))
+			);
+			Router::parse('/');
 
-		$result = Router::url(array(
-			'plugin' => 'test_plugin', 'controller' => 'show_tickets', 'action' => 'edit', 6,
-			'admin' => true, 'prefix' => 'admin'
-		));
-		$expected = '/admin/test_plugin/show_tickets/edit/6';
-		$this->assertEquals($expected, $result);
+			$result = Router::url(array('plugin' => 'test_plugin', 'controller' => 'test_plugin', 'action' => 'index'));
+			$expected = '/' . $urlPrefix . '/test_plugin';
+			$this->assertEquals($expected, $result);
 
-		$result = Router::url(array(
-			'plugin' => 'test_plugin', 'controller' => 'show_tickets', 'action' => 'index', 'admin' => true
-		));
-		$expected = '/admin/test_plugin/show_tickets';
-		$this->assertEquals($expected, $result);
+			Router::reload();
+			require CAKE . 'Config' . DS . 'routes.php';
+			$request = new CakeRequest();
+			Router::setRequestInfo(
+				$request->addParams(array(
+					'plugin' => 'test_plugin', 'controller' => 'show_tickets', 'action' => 'admin_edit',
+					'pass' => array('6'), 'prefix' => 'admin', 'admin' => true, 'form' => array(),
+					'url' => array('url' => $urlPrefix . '/shows/show_tickets/edit/6')
+				))->addPaths(array(
+					'base' => '/',
+					'here' => '/' . $urlPrefix . '/shows/show_tickets/edit/6',
+					'webroot' => '/',
+				))
+			);
 
-		App::build(array('plugins' => $paths));
+			$result = Router::url(array(
+				'plugin' => 'test_plugin', 'controller' => 'show_tickets', 'action' => 'edit', 6,
+				'admin' => true, 'prefix' => 'admin'
+			));
+			$expected = '/' . $urlPrefix . '/test_plugin/show_tickets/edit/6';
+			$this->assertEquals($expected, $result);
+
+			$result = Router::url(array(
+				'plugin' => 'test_plugin', 'controller' => 'show_tickets', 'action' => 'index', 'admin' => true
+			));
+			$expected = '/' . $urlPrefix . '/test_plugin/show_tickets';
+			$this->assertEquals($expected, $result);
+
+			App::build(array('plugins' => $paths));
+		}
 	}
 
 /**
