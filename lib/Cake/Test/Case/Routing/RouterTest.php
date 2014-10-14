@@ -49,7 +49,7 @@ class RouterTest extends CakeTestCase {
 		parent::tearDown();
 		CakePlugin::unload();
 		Router::fullBaseUrl('');
-		Configure::write('App.fullBaseUrl', 'http://localhost');
+		Configure::write('App.fullBaseUrl', FULL_BASE_URL);
 	}
 
 /**
