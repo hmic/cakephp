@@ -1334,7 +1334,7 @@ class RouterTest extends CakeTestCase {
 			$request = new CakeRequest();
 			Router::setRequestInfo(
 				$request->addParams(array(
-					'admin' => true, 'controller' => 'controller', 'action' => 'action',
+					$prefix => true, 'controller' => 'controller', 'action' => 'action',
 					'plugin' => null, 'prefix' => $prefix
 				))->addPaths(array(
 					'base' => '/',
