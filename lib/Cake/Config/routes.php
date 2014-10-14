@@ -14,6 +14,9 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+
+if (!function_exists('__setup_cakephp_default_routing')) {
+
 /**
  * Connects the default, built-in routes, including prefix and plugin routes. The following routes are created
  * in the order below:
@@ -41,9 +44,9 @@
  *
  * You can disable the connection of default routes by deleting the require inside APP/Config/routes.php.
  */
-if(!function_exists('setup_cakephp_default_routing')) {
-	function setup_cakephp_default_routing() {
+	function __setup_cakephp_default_routing() {
 		$prefixes = Router::prefixes();
+
 		if ($plugins = CakePlugin::loaded()) {
 			App::uses('PluginShortRoute', 'Routing/Route');
 			foreach ($plugins as $key => $value) {
@@ -84,10 +87,7 @@ if(!function_exists('setup_cakephp_default_routing')) {
 		if ($namedConfig['rules'] === false) {
 			Router::connectNamed(true);
 		}
-	/*
-		unset($namedConfig, $params, $indexParams, $urlPrefix, $prefix, $prefixes, $shortParams, $match,
-			$pluginPattern, $plugins, $key, $value);
-	*/
 	}
 }
-setup_cakephp_default_routing();
+
+__setup_cakephp_default_routing();

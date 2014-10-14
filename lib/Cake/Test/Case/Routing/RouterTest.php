@@ -1313,7 +1313,7 @@ class RouterTest extends CakeTestCase {
 			array('admin'),
 			array('supervisor' => 'admin')
 		);
-		foreach($prefixTests as $testPrefix) {
+		foreach ($prefixTests as $testPrefix) {
 			$prefix = current($testPrefix);
 			$urlPrefix = key($testPrefix);
 			if (is_int($urlPrefix)) {
