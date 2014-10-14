@@ -43,6 +43,8 @@ if (!function_exists('__setup_cakephp_default_routing')) {
  * - `/:controller/:action/*'
  *
  * You can disable the connection of default routes by deleting the require inside APP/Config/routes.php.
+ *
+ * @return void
  */
 	function __setup_cakephp_default_routing() {
 		$prefixes = Router::prefixes();
@@ -88,6 +90,7 @@ if (!function_exists('__setup_cakephp_default_routing')) {
 			Router::connectNamed(true);
 		}
 	}
+
 }
 
 __setup_cakephp_default_routing();
